@@ -1,5 +1,3 @@
-TEst
-
 # Vibration
 
 Native **free** plugin for Unity for iOS and Android.

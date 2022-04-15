@@ -41,28 +41,23 @@ public static class Vibration
     public static AndroidJavaObject context;
 
     public static AndroidJavaClass vibrationEffect;
-
-
 #endif
 
     private static bool initialized = false;
-    public static void Init ()
+    static void Init ()
     {
         if ( initialized ) return;
 
 #if UNITY_ANDROID
-
-        if ( Application.isMobilePlatform ) {
-
+        if ( Application.isMobilePlatform ) 
+        {
             unityPlayer = new AndroidJavaClass ( "com.unity3d.player.UnityPlayer" );
             currentActivity = unityPlayer.GetStatic<AndroidJavaObject> ( "currentActivity" );
             vibrator = currentActivity.Call<AndroidJavaObject> ( "getSystemService", "vibrator" );
             context = currentActivity.Call<AndroidJavaObject> ( "getApplicationContext" );
 
-            if ( AndroidVersion >= 26 ) {
+            if ( AndroidVersion >= 26 ) 
                 vibrationEffect = new AndroidJavaClass ( "android.os.VibrationEffect" );
-            }
-
         }
 #endif
 
@@ -74,7 +69,9 @@ public static class Vibration
     ///</summary>
     public static void VibratePop ()
     {
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if UNITY_IOS
         _VibratePop ();
 #elif UNITY_ANDROID
@@ -87,7 +84,9 @@ public static class Vibration
     ///</summary>
     public static void VibratePeek ()
     {
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if UNITY_IOS
         _VibratePeek ();
 #elif UNITY_ANDROID
@@ -100,7 +99,9 @@ public static class Vibration
     ///</summary>
     public static void VibrateNope ()
     {
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if UNITY_IOS
         _VibrateNope ();
 #elif UNITY_ANDROID
@@ -117,8 +118,9 @@ public static class Vibration
     ///</summary>
     public static void Vibrate ( long milliseconds )
     {
-
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if !UNITY_WEBGL
 #if UNITY_ANDROID
 
@@ -144,11 +146,13 @@ public static class Vibration
     ///</summary>
     public static void Vibrate ( long[] pattern, int repeat )
     {
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if UNITY_ANDROID
 
             if ( AndroidVersion >= 26 ) {
-                long[] amplitudes;
+                //long[] amplitudes;
                 AndroidJavaObject createWaveform = vibrationEffect.CallStatic<AndroidJavaObject> ( "createWaveform", pattern, repeat );
                 vibrator.Call ( "vibrate", createWaveform );
 
@@ -168,7 +172,9 @@ public static class Vibration
     ///</summary>
     public static void Cancel ()
     {
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if UNITY_ANDROID
             vibrator.Call ( "cancel" );
 #endif
@@ -177,41 +183,42 @@ public static class Vibration
 
     public static bool HasVibrator ()
     {
-        if ( Application.isMobilePlatform ) {
-
+        Init();
+        if ( Application.isMobilePlatform ) 
+        {
 #if UNITY_ANDROID
-
             AndroidJavaClass contextClass = new AndroidJavaClass ( "android.content.Context" );
             string Context_VIBRATOR_SERVICE = contextClass.GetStatic<string> ( "VIBRATOR_SERVICE" );
             AndroidJavaObject systemService = context.Call<AndroidJavaObject> ( "getSystemService", Context_VIBRATOR_SERVICE );
-            if ( systemService.Call<bool> ( "hasVibrator" ) ) {
+            if ( systemService.Call<bool>( "hasVibrator" ))
                 return true;
-            } else {
+             else
                 return false;
-            }
-
 #elif UNITY_IOS
         return _HasVibrator ();
 #else
         return false;
 #endif
-        } else {
+        } else 
             return false;
-        }
     }
 
 
     public static void Vibrate ()
     {
-        if ( Application.isMobilePlatform ) {
+        Init();
+        if ( Application.isMobilePlatform )
             Handheld.Vibrate ();
-        }
     }
 
-    public static int AndroidVersion {
-        get {
+    public static int AndroidVersion 
+    {
+        get 
+        {
+            Init();
             int iVersionNumber = 0;
-            if ( Application.platform == RuntimePlatform.Android ) {
+            if ( Application.platform == RuntimePlatform.Android ) 
+            {
                 string androidVersion = SystemInfo.operatingSystem;
                 int sdkPos = androidVersion.IndexOf ( "API-" );
                 iVersionNumber = int.Parse ( androidVersion.Substring ( sdkPos + 4, 2 ).ToString () );

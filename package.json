@@ -1,0 +1,24 @@
+{
+    "name": "com.dimati.vibration",
+    "displayName": "Vibration",
+    "version": "1.0.0",
+    "unity": "2018.4",
+    "unityRelease": "",
+    "description": "Simple vibration system with sampe",
+    "author": "DimaTi <timofeenkodima@gmail.com> (https://github.com/dimaTidev)",
+    "keywords": [
+        "Base"
+    ],
+    "category": "Base",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dimaTidev/Vibration.git"
+    },
+    "samples": [
+        {
+            "displayName": "Example",
+            "description": "Contains sample scene with test script",
+            "path": "Samples~/Example"
+        }
+    ]
+}
